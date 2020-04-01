@@ -1,12 +1,17 @@
+'''
+(c) Copyright 2019 by Radomir Dopieralski.
+
+This work is licensed under a Creative Commons
+Attribution-ShareAlike 4.0 International (CC BY-SA 4.0) License
+(http://creativecommons.org/licenses/by-sa/4.0/).
+
+Original version at
+https://github.com/pewpew-game/pew-pygame
+minimal modifications made in this version by James Wootton.
+'''
+
 import pygame
 
-
-_PALETTE = (
-    (0x00, 0x00, 0x00),
-    (0x00, 0xbb, 0x11),
-    (0xaa, 0x22, 0x00),
-    (0xff, 0xaa, 0x00),
-)
 _FONT = (
     b'{{{{{{wws{w{HY{{{{YDYDY{sUtGUsH[wyH{uHgHE{ws{{{{vyxyv{g[K[g{{]f]{{{wDw{{'
     b'{{{wy{{{D{{{{{{{w{K_w}x{VHLHe{wuwww{`KfyD{UKgKU{w}XDK{DxTKT{VxUHU{D[wyx{'
@@ -28,19 +33,20 @@ K_O = 0x20
 
 _KEYMAP = {
     pygame.K_x: K_X,
-    pygame.K_z: K_O,
+    pygame.K_d: K_O,
     pygame.K_UP: K_UP,
     pygame.K_DOWN: K_DOWN,
     pygame.K_LEFT: K_LEFT,
     pygame.K_RIGHT: K_RIGHT,
 }
 
+_SIZE = 600
 
 def init():
     global _display, _clock, _keys
 
     pygame.display.init()
-    _display = pygame.display.set_mode((320, 320))
+    _display = pygame.display.set_mode((_SIZE, _SIZE))
     _clock = pygame.time.Clock()
     _keys = 0x00
 
@@ -52,10 +58,12 @@ def brightness(level):
 
 
 def show(pix):
-    for y in range(8):
-        for x in range(8):
-            pygame.draw.rect(_display, _PALETTE[pix.pixel(x, y) & 0x03],
-                             (x * 40 + 2, y * 40 + 2, 36, 36), 0)
+    cell = _SIZE/(max(pix.width, pix.height))
+    for y in range(pix.height):
+        for x in range(pix.width):
+            pygame.draw.rect(_display,
+            pix.palette[pix.pixel(x, y)],
+            (x * cell, y * cell, cell, cell), 0)
     pygame.display.flip()
 
 
@@ -79,7 +87,6 @@ def keys():
 
 def tick(delay):
     _clock.tick(1/delay)
-    pygame.event.pump()
 
 
 class GameOver(Exception):
@@ -87,12 +94,16 @@ class GameOver(Exception):
 
 
 class Pix:
-    def __init__(self, width=8, height=8, buffer=None):
+    def __init__(self, width=8, height=8, palette=None, buffer=None):
         if buffer is None:
             buffer = bytearray(width * height)
         self.buffer = buffer
         self.width = width
         self.height = height
+        if palette is None:
+            self.palette = [(int(j*255/4),0,0) for j in range(4)]
+        else:
+            self.palette = palette
 
     @classmethod
     def from_text(cls, string, color=None, bgcolor=0, colors=None):
