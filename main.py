@@ -1,48 +1,48 @@
 '''
-* Add your pewpew code below, replacing what is there already.
-
-* Run by clicking the button above.
-
 * Controls:
     - Click on the Pygame window to ensure your inputs are captured
     - Use the arrow keys for ▲ ▼ ◀︎ and ►
     - Use the 'x' key for X and the 'd' key for O
 '''
 
-
-# define a function that determines a brightness for any given point
-# uses a seed that is a list of four numbers
-def get_brightness(x,y):
-    qc.data.clear() # empty the circuit
-    # perform rotations, whose angles depend on x and y
-    qc.rx((2*pi/360)*(seed[0]*x-seed[1]*y)*45,0)
-    qc.h(0)
-    qc.rx((2*pi/360)*(seed[2]*x+seed[3]*y**2)*45,0)
-    # calculate probability for outcome 1
-    qc.measure(0,0)
-    p = simulate(qc,shots=1000,get='counts')['1']/1000
-    # return brightness depending on this probability
-    # the chosen values here are fairly arbitrarily
-    if p>0.7:
-        if p<0.8:
-            return 1
-        elif p<0.9:
-            return 2
-        else:
-            return 3
-    else:
-        return 0
-
-
 import pew
-from microqiskit import QuantumCircuit, simulate
+'''from microqiskit import QuantumCircuit, simulate
 from math import pi
-from random import random
+from random import random'''
 
 pew.init()
 screen = pew.Pix()
 
-# initialize circuit
+for X in range(8):
+        for Y in range(8):
+            screen.pixel(X,Y,2)
+
+B = 3
+
+pressing = False
+while True:
+
+    keys= pew.keys()
+    if not pressing:
+        if keys&pew.K_X:
+            break
+        if keys&pew.K_UP:
+            B = min(B+1,3)
+        if keys&pew.K_DOWN:
+            B = max(B-1,0)
+        if keys:
+            pressing = True
+    else:
+        if not keys:
+            pressing = False
+
+screen.pixel(6,6,B)
+
+pew.show(screen)
+
+pew.tick(1/6)
+
+'''# initialize circuit
 qc = QuantumCircuit(1,1)
 
 # set a random seed, composed of four numbers
@@ -73,4 +73,4 @@ while True:
             screen.pixel(x,y,B)
     pew.show(screen)
 
-    pew.tick(1/6)
+    pew.tick(1/6)'''
