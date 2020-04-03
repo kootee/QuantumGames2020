@@ -36,6 +36,6 @@ while True:
     elif target == 3:
         print('door')
         #a door to a different floor
-    screen.pixel(x,y,3)
+    screen.pixel(x,y,1)
     pew.show(screen)
     pew.tick(1/6)
