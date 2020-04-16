@@ -69,6 +69,3 @@ while True: # loop which checks for user input and responds
     
     pew.show(screen) 
     pew.tick(1/6) # pause for a sixth of a second
-
-
-    

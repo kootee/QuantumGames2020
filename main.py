@@ -25,7 +25,7 @@ status = True
 x = 1
 y = 1
 
-'''End game (not working yet), 
+'''TODO End game, 
 shows the text GAME OVER! and the stats. 
 Game ends when you press X'''
 def end_game():
@@ -48,16 +48,16 @@ def update_pixels(dx, dy): #loop through the pixels and update them to show map
     if y > 5 and dy == 1:
         print('y bigger than five') 
         for i in range(8):
+            print('i:is', i)
             for j in range(8):
-                if i == 7:
-                    pic_before = grid[i + world_y][j]
-                    print(pic_before)
-                    print(grid[i + world_y][j])
+                if j == 7:
+                    pic_before = grid[world_y + 34][i]
                 else:
                     pic_before = screen.pixel(i, j + 1)
                 
+                print('color of previous pix', pic_before)
                 screen.pixel(i,j,pic_before)
-    
+
     elif y < 2 and dy == -1:
         print('y smaller than two')
         for i in range(8):
@@ -89,24 +89,6 @@ def update_pixels(dx, dy): #loop through the pixels and update them to show map
                 #screen.pixel(i,j,pic_before)
     
     print('no update')
-    # - dx or dy
- 
-    """
-                    pic_before = screen.pixel(i - 1, j)
-                print('i:', i, 'j:', j)
-                print('color', pic_before)
-                screen.pixel(i,j,pic_before)
-    for i in range(8:
-       for j in range(8):
-           pic_before = 
-           pic_after =
-     for i in range(8):
-        for j in range(8):
-        if j < 7:
-            screen.pixel(i,j,0)
-        else:
-            screen.pixel(i,j,3)
-    """
 
 while status:
     screen.pixel(x,y,0)
@@ -129,6 +111,10 @@ while status:
     target = screen.pixel(x + dx ,y + dy)
     #criteria for the movement of the character
     if target == 0: #move to empty spot if character is in accepptable spot
+        world_x += dx
+        world_y += dy
+        print('world coordinates', world_x, world_y)
+
         if dx == -1 and x > 1:
             x += dx
         elif dx == 1 and x < 6:
@@ -141,9 +127,6 @@ while status:
             print('x and y:', x , y)
             print('dx and dy', dx , dy)
             update_pixels(dx,dy)
-        world_x += dx
-        world_y += dy
-        print('world coordinates', world_x, world_y)
     elif target == 3:
         print('door')#a door to a different floor TODO move to a different floor
     elif target == 2:
