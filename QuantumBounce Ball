@@ -45,10 +45,8 @@ meas.measure(1,1)
 m = simulate(qc+meas,shots=1,get='memory')
 
 while True:
-    if (X,Y) == (x,y) or  (X,Y) == (4,0):
+    if (X,Y) == (x,y) or  (X,Y) == (x2,y2) or (X,Y) == (4,0) :
         break 
-    if (X,Y) == (x2,y2):
-        break
     screen.pixel(x, y, 0)
     screen.pixel(x1, y1, 0)
     screen.blit(background)
