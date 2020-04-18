@@ -14,11 +14,11 @@ background = pew.Pix.from_iter((
     (2, 2, 2, 2, 2, 2,2,2),
 ))
 ball = pew.Pix.from_iter((
-    (2, 2),
-    (2, 2),
+    (2,2, 2),
+    (2,2,2),
 ))
 
-x = 3
+x = 4
 y = 4
 x1 = 5
 y1 = 2
@@ -45,7 +45,7 @@ meas.measure(1,1)
 m = simulate(qc+meas,shots=1,get='memory')
 
 while True:
-    if (X,Y) == (x,y) or  (X,Y) == (x2,y2) or (X,Y) == (4,0) :
+    if (X,Y) == (x,y) or (X,Y) == (x2,y2) or (X,Y) == (4,0) :
         break 
     screen.pixel(x, y, 0)
     screen.pixel(x1, y1, 0)
@@ -114,7 +114,7 @@ while True:
              dx2 =-dx2                
         if not 1 < y2 < 6 : 
              dy2 = -dy2        
-        screen.blit(ball, x2, y2)
+        screen.pixel( x2, y2, 2)
         screen.pixel(X,Y, 3 if blink else 1)
         blink = not blink
     
@@ -126,4 +126,4 @@ while True:
     y2 += dy2
     
     pew.show(screen)
-    pew.tick(1/12)
+    pew.tick(1/15)
